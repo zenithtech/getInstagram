@@ -1,0 +1,62 @@
+* {
+    font-family: 'helvetica', arial;
+    -webkit-text-size-adjust: 100%;
+    font-smoothing: antialiased;
+    -moz-font-smoothing: antialiased;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+}
+
+#instgramelement {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    position: relative;
+    display: table;
+    width: 100%;
+    text-align: center;
+}
+
+#instgramelement li {
+    text-align: center;
+    width: 216px;
+    margin: 0 0 0 20px;
+    display: table-cell;
+    padding: 20px;
+    background-color: #eee;
+}
+
+#instgramelement li:first-child {
+    margin: 0;
+}
+
+#instgramelement li .image-box img {
+    max-width: 100%;
+}
+
+#instgramelement li p {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+#instgramelement li p.num {
+    font-size: 40px;
+    color: #b68d3d;
+    margin-bottom: 15px;
+}
+
+#instgramelement li p.desc {
+    font-style: italic;
+    margin-bottom: 20px;
+    overflow: hidden;
+}
+
+#instgramelement li p.author {
+    color: #b68d3d;
+}
+
+#instgramelement li p.author strong {
+    display: block;
+    word-break: break-all;
+}
