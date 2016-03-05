@@ -9,7 +9,7 @@
 </head>
 <body>
 
-<ul id="instgramelement" class="clearfix">
+<ul id="instgramelement">
 <!-- echo the content here -->
 </ul>
 	
