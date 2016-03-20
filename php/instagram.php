@@ -40,7 +40,7 @@ function process_data($dataFile, $requestType){
         // invalid username or media
         header("HTTP/1.0 400 BAD REQUEST");
         header('Content-Type: text/html; charset=utf-8');
-        die("invalid $requestType");
+        die();
     }
 };
 
@@ -79,6 +79,6 @@ elseif( !empty($user) && !empty($media) ){
 elseif( empty($user) && empty($media) ){
     header("HTTP/1.0 400 BAD REQUEST");
     header('Content-Type: text/html; charset=utf-8');
-    die("invalid parameters");
+    die();
 };
 ?>
