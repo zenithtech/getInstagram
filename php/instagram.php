@@ -1,9 +1,11 @@
 <?php
-$http_origin = $_SERVER['HTTP_ORIGIN'];
-/** restrict API to domain level **/
-$domains_allowed = array('https://zenitht.com');
-if(in_array( $http_origin, $domains_allowed )){
-  header('Access-Control-Allow-Origin: $http_origin');
+if ("POST" == $_SERVER["REQUEST_METHOD"]) {
+    if (isset($_SERVER["HTTP_ORIGIN"])) {
+        $address = "https://".$_SERVER["SERVER_NAME"];
+        if (strpos($address, $_SERVER["HTTP_ORIGIN"]) !== 0) {
+            exit("CSRF protection in POST request: detected invalid Origin header: ".$_SERVER["HTTP_ORIGIN"]);
+        }
+    }
 }
 
 /** functions **/
@@ -45,8 +47,13 @@ function process_data($dataFile, $requestType){
 };
 
 // process user input
-$user  = sanitize_input( $_GET['user'] ); // instagram user name
-$media = sanitize_input( $_GET['media'] ); // media shortcode
+
+if(!empty($_GET['user'])) {
+    $user  = sanitize_input( $_GET['user'] ); // instagram user name
+}
+if (!empty($_GET['media'])) {
+    $media = sanitize_input( $_GET['media'] ); // media shortcode
+}
 
 /***** set context *****/
 $context = stream_context_create(array(
