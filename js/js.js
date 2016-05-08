@@ -1,6 +1,6 @@
 /**
  * Asynchronously fetches Instagram posts from a provided list of Instagram post IDs via HTTP using PHP without using Intagram API and appends them to an HTML tag. Skips invalid posts and timed out requests.
- * getInstagramData(php, instalinks, target, num)
+ * getInstagram(php, instalinks, target, num)
  * {php} {String} location of PHP file
  * {instalinks} {Array} Array of Instagram post IDs
  * {target} {String} HTML tag to append to
@@ -8,10 +8,10 @@
  * 
  * @param  {String} {Array} {String} {Number}
  * @return nothing
- * @method getInstagramData
+ * @method getInstagram
  */
 
-var getInstagramData = function(php, instalinks, target, num) {
+var getInstagram = function(php, instalinks, target, num) {
         var countEl = 0,
             index = 0,
             req = new XMLHttpRequest(),
@@ -135,6 +135,6 @@ var getInstagramData = function(php, instalinks, target, num) {
     instalinksrand = shuffle(instalinks);
 
 (function() {
-    // Call the getInstagramData function
-    getInstagramData("php/instagram.php", instalinks, document.getElementById('instgramelement'), 5);
+    // Call the getInstagram function
+    getInstagram("php/instagram.php", instalinks, document.getElementById('instgramelement'), 5);
 })();
