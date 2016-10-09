@@ -67,13 +67,13 @@ $context = stream_context_create(array(
 // user, including last 20 media posts
 if( !empty($user) && empty($media) ){
     $requestType = "user";
-    $dataFile = @ file_get_contents("http://instagram.com/".$user,  NULL, $context);
+    $dataFile = @ file_get_contents("https://instagram.com/".$user,  NULL, $context);
     echo process_data($dataFile, $requestType);
 }
 // media
 elseif( empty($user) && !empty($media) ){
     $requestType = "media";
-    $dataFile = @ file_get_contents("http://instagram.com/p/".$media, NULL, $context);
+    $dataFile = @ file_get_contents("https://instagram.com/p/".$media, NULL, $context);
     echo process_data($dataFile, $requestType);
 }
 // invalid : two or more parameters were passed
