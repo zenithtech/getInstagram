@@ -60,21 +60,24 @@ var getInstagram = function(php, instalinks, target, num) {
         };
         req.onreadystatechange = function() {
             if (req.readyState == 4 && req.status == 200) {
-                var data = JSON.parse(parseReq(req));
+                var data = JSON.parse(parseReq(req)),
+                    shortcode_media = data.entry_data.PostPage[0].graphql.shortcode_media;
+                console.log(shortcode_media);
+
                 countEl++;
-                var img = '<img src="' + data.entry_data.PostPage[0].media.display_src + '" alt="' + data.entry_data.PostPage[0].media.caption + '" />',
+                var img = '<img src="' + data.entry_data.PostPage[0].graphql.shortcode_media.display_url + '" alt="' + shortcode_media.caption + '" />',
                     output = document.createElement("li");
                 output.setAttribute('data-id', countEl);
                 output.innerHTML = '<p class="num">' +
                     pad(countEl, 2, 0) +
                     '</p><div class="image-box"><a href="https://instagram.com/p/' +
-                    data.entry_data.PostPage[0].media.code +
+                    shortcode_media.code +
                     '" target="_blank">' +
                     img +
                     '</a></div><p class="desc">' +
-                    data.entry_data.PostPage[0].media.caption +
+                    shortcode_media.caption +
                     '</p><p class="author"><strong>' +
-                    data.entry_data.PostPage[0].media.owner.username +
+                    shortcode_media.owner.username +
                     '</strong></p>';
                 target.appendChild(output);
             }
@@ -109,7 +112,6 @@ var getInstagram = function(php, instalinks, target, num) {
     // eg. 8gMTgjo6lK from https://instagram.com/p/8gMTgjo6lK/
     // includes some bad requests for testing.
     instalinks = [
-        'xxxxxx', // bad request
         'BA9M58hoTYL',
         'BA-vDsLKowA',
         'xxxxxx', // bad request
@@ -121,7 +123,6 @@ var getInstagram = function(php, instalinks, target, num) {
         'xxxxxx', // bad request
         'BBDNddZPKsx',
         'BAFhPC0mWwY',
-        'xxxxxx', // bad request
         'BAxb0t1BFf6',
         'BADJZBgBFRO',
         'xxxxxx', // bad request
