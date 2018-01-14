@@ -62,20 +62,20 @@ var getInstagram = function(php, instalinks, target, num) {
             if (req.readyState == 4 && req.status == 200) {
                 var data = JSON.parse(parseReq(req)),
                     shortcode_media = data.entry_data.PostPage[0].graphql.shortcode_media;
-                console.log(shortcode_media);
+                // console.log(shortcode_media);
 
                 countEl++;
-                var img = '<img src="' + data.entry_data.PostPage[0].graphql.shortcode_media.display_url + '" alt="' + shortcode_media.caption + '" />',
+                var img = '<img src="' + data.entry_data.PostPage[0].graphql.shortcode_media.display_url + '" alt="' + shortcode_media.edge_media_to_caption.edges[0].node.text + '" />',
                     output = document.createElement("li");
                 output.setAttribute('data-id', countEl);
                 output.innerHTML = '<p class="num">' +
                     pad(countEl, 2, 0) +
                     '</p><div class="image-box"><a href="https://instagram.com/p/' +
-                    shortcode_media.code +
+                    shortcode_media.shortcode +
                     '" target="_blank">' +
                     img +
                     '</a></div><p class="desc">' +
-                    shortcode_media.caption +
+                    shortcode_media.edge_media_to_caption.edges[0].node.text +
                     '</p><p class="author"><strong>' +
                     shortcode_media.owner.username +
                     '</strong></p>';
