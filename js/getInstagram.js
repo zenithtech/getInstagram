@@ -11,7 +11,7 @@
  * @method getInstagram
  */
 
-var getInstagram = function(php, instalinks, target, num) {
+var getInstagram = function(php, instalinks, target, num, user) {
         var countEl = 0,
             index = 0,
             req = new XMLHttpRequest(),
@@ -27,27 +27,34 @@ var getInstagram = function(php, instalinks, target, num) {
                 return reqData;
             },
             callInt = function() {
-                req.open('GET', php + '?media=' + instalinks[index], true);
+                if(!user){
+                    req.open('GET', php + '?media=' + instalinks[index], true);
+                } else {
+                    console.log('reqListener user');
+                    req.open('GET', php + '?user=' + user, true);
+                }
                 req.send();
             },
             reqListener = function() {
-                if (countEl < num || index < instalinks.length) {
-                    if (index < instalinks.length) {
-                        index++;
-                        if (num > instalinks.length && index >= instalinks.length) {
-                            console.log('Sorry, you requested ' + num + ' but supplied only ' + instalinks.length + '. Exiting.');
-                            return false;
-                        }
-                        if (countEl >= num || index >= instalinks.length) {
-                            if (index >= instalinks.length && countEl < num) {
-                                console.log('Sorry, found only ' + countEl + ' posts of ' + num + ' requested.' + ' Exiting.');
-                                return false;
-                            } else {
-                                console.log('Complete. Found ' + countEl + ' posts of ' + num + ' requested.');
+                if(!user){
+                    if (countEl < num || index < instalinks.length) {
+                        if (index < instalinks.length) {
+                            index++;
+                            if (num > instalinks.length && index >= instalinks.length) {
+                                console.log('Sorry, you requested ' + num + ' but supplied only ' + instalinks.length + '. Exiting.');
                                 return false;
                             }
+                            if (countEl >= num || index >= instalinks.length) {
+                                if (index >= instalinks.length && countEl < num) {
+                                    console.log('Sorry, found only ' + countEl + ' posts of ' + num + ' requested.' + ' Exiting.');
+                                    return false;
+                                } else {
+                                    console.log('Complete. Found ' + countEl + ' posts of ' + num + ' requested.');
+                                    return false;
+                                }
+                            }
+                            callInt();
                         }
-                        callInt();
                     }
                 }
             };
@@ -60,26 +67,38 @@ var getInstagram = function(php, instalinks, target, num) {
         };
         req.onreadystatechange = function() {
             if (req.readyState == 4 && req.status == 200) {
-                var data = JSON.parse(parseReq(req)),
-                    shortcode_media = data.entry_data.PostPage[0].graphql.shortcode_media;
-                // console.log(shortcode_media);
+                var data = JSON.parse(parseReq(req));
+                var shortcode_media = null;
+                var instalinks = [];
+                var entry_data = false;
 
-                countEl++;
-                var img = '<img src="' + data.entry_data.PostPage[0].graphql.shortcode_media.display_url + '" alt="' + shortcode_media.edge_media_to_caption.edges[0].node.text + '" />',
-                    output = document.createElement("li");
-                output.setAttribute('data-id', countEl);
-                output.innerHTML = '<p class="num">' +
-                    pad(countEl, 2, 0) +
-                    '</p><div class="image-box"><a href="https://instagram.com/p/' +
-                    shortcode_media.shortcode +
-                    '" target="_blank">' +
-                    img +
-                    '</a></div><p class="desc">' +
-                    shortcode_media.edge_media_to_caption.edges[0].node.text +
-                    '</p><p class="author"><strong>' +
-                    shortcode_media.owner.username +
-                    '</strong></p>';
-                target.appendChild(output);
+                if(!user){
+                    shortcode_media = data.entry_data.PostPage[0].graphql.shortcode_media;
+                    countEl++;
+                    var img = '<img src="' + data.entry_data.PostPage[0].graphql.shortcode_media.display_url + '" alt="' + shortcode_media.edge_media_to_caption.edges[0].node.text + '" />',
+                        output = document.createElement("li");
+                    output.setAttribute('data-id', countEl);
+                    output.innerHTML = '<p class="num">' +
+                        pad(countEl, 2, 0) +
+                        '</p><div class="image-box"><a href="https://instagram.com/p/' +
+                        shortcode_media.shortcode +
+                        '" target="_blank">' +
+                        img +
+                        '</a></div><p class="desc">' +
+                        shortcode_media.edge_media_to_caption.edges[0].node.text +
+                        '</p><p class="author"><strong>' +
+                        shortcode_media.owner.username +
+                        '</strong></p>';
+                    target.appendChild(output);
+                } else {
+                    edges = data.entry_data.ProfilePage[0].graphql.user.edge_owner_to_timeline_media.edges;
+                    for (var i = 0; i <= edges.length - 1; i++) {
+                        instalinks.push(edges[i].node.shortcode);
+                    }
+
+                    instalinks = shuffle(instalinks);
+                    window.getInstagram(php, instalinks, target, num, false);
+                }
             }
             if (req.readyState == 4 && req.status == 400) {
                 console.log('Sorry, could not get post with ID: "' + instalinks[index] + '". Skipping ... ');

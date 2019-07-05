@@ -42,7 +42,11 @@
     // Shuffle the links so that they're in random order.
     instalinksrand = shuffle(instalinks);
 
-    window.getInstagram("php/instagram.php", instalinks, document.getElementById('instgramelement'), 5);
+    // Generate from supplied list above, no limit
+    // window.getInstagram("php/instagram.php", instalinks, document.getElementById('instgramelement'), 5, false);
+
+    // Generate by user ID, maximum 12
+    window.getInstagram("php/instagram.php", false, document.getElementById('instgramelement'), 12, 'nowserving');
 </script>
 
 </html>
