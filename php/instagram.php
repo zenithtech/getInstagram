@@ -21,19 +21,18 @@ function sanitize_input($input){
 function process_data($dataFile, $requestType){
     $data_length = strlen($dataFile);
     if( $data_length > 0 ){
-        $start_position = strpos( $dataFile, '<script type="text/javascript">window._sharedData = ' ); // start position
-        $trimmed_before = trim( substr($dataFile, $start_position) ); // trim preceding content
-        $end_position = strpos( $trimmed_before, '</script>'); // end position        
-        $trimmed = trim( substr( $trimmed_before, 0, $end_position) ); // trim content
-        $jsondata = substr( $trimmed, 52, -1); // remove extra trailing ";"
+        $start_position = strpos( $dataFile, '<script type="text/javascript">window._sharedData = ' );
+        $trimmed_before = trim( substr($dataFile, $start_position) );
+        $end_position = strpos( $trimmed_before, '</script>');     
+        $trimmed = trim( substr( $trimmed_before, 0, $end_position) );
+        $jsondata = substr( $trimmed, 52, -1);
         header("HTTP/1.0 200 OK");
-        // JSONP response
+
         if(array_key_exists('callback', $_GET)){
             header('Content-Type: text/javascript; charset=utf8');
             $callback = $_GET['callback'];
             return $callback."(".$jsondata.");";
         }
-        // JSON response
         else {
             header('Content-Type: application/json; charset=utf-8');
             return $jsondata;
@@ -46,13 +45,11 @@ function process_data($dataFile, $requestType){
     }
 };
 
-// process user input
-
 if(!empty($_GET['user'])) {
-    $user  = sanitize_input( $_GET['user'] ); // instagram user name
+    $user  = sanitize_input( $_GET['user'] );
 }
 if (!empty($_GET['media'])) {
-    $media = sanitize_input( $_GET['media'] ); // media shortcode
+    $media = sanitize_input( $_GET['media'] );
 }
 
 /***** set context *****/
@@ -64,7 +61,7 @@ $context = stream_context_create(array(
 ); 
 
 /***** validate request type and return response *****/
-// user, including last 20 media posts
+// user
 if( !empty($user) && empty($media) ){
     $requestType = "user";
     $dataFile = @ file_get_contents("https://instagram.com/".$user,  NULL, $context);

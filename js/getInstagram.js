@@ -1,5 +1,5 @@
 /**
- * Asynchronously fetches Instagram posts from a provided list of Instagram post IDs via HTTP using PHP without using Intagram API and appends them to an HTML tag. Skips invalid posts and timed out requests.
+ * https://github.com/zenithtech/getInstagram
  * getInstagram(php, instalinks, target, num)
  * {php} {String} location of PHP file
  * {instalinks} {Array} Array of Instagram post IDs
@@ -63,7 +63,7 @@ var getInstagram = function(php, instalinks, target, num, user) {
         req.addEventListener("load", reqListener);
         req.ontimeout = function() {
             console.log("Timed out");
-            reqListener();
+            callInt();
         };
         req.onreadystatechange = function() {
             if (req.readyState == 4 && req.status == 200) {
