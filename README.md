@@ -26,6 +26,8 @@ window.instalinks = [
     'BAzlDkePKke'
 ];
 
+instalinks = shuffle(instalinks); // Optionally shuffle
+
 window.getInstagram(
   "php/instagram.php",
   instalinks,
