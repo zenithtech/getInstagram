@@ -14,6 +14,12 @@
     <script rel="text/javascript" src="js/getInstagram.js"></script>
 
     <script type="text/javascript">
-        window.getInstagram("php/instagram.php", false, document.getElementById('instgramelement'), 12, 'facebook');
+        window.getInstagram(
+          "php/instagram.php",
+          false,
+          document.getElementById('instgramelement'),
+          12,
+          'facebook'
+        );
     </script>
 </html>
