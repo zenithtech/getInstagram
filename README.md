@@ -47,7 +47,7 @@ window.getInstagram(
 
 ## Wordpress implementation
 
-See the [wordpress](wordpress) directory as an exmaple of the contents of your Wordpress theme.
+See the [wordpress](wordpress) directory as an example of the contents of your Wordpress theme.
 
 A shortcode is included:
 ````
