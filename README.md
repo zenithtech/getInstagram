@@ -4,12 +4,9 @@
 - Skips invalid posts and timed out requests
 - Optinally randomize and renders the resulting data to HTML
 - Templating easily customizable
+- Wordpress implementation example and shortcode included
 
 Example: https://zenitht.com/git/getInstagram/
-
-## License
-
-This package is licensed under MIT license. See LICENSE for details.
 
 See index.php for examples.
 
@@ -47,3 +44,16 @@ window.getInstagram(
   'facebook'
 );
 ```
+
+## Wordpress implementation
+
+See the [wordpress](wordpress) directory as an exmaple of the contents of your Wordpress theme.
+
+A shortcode is included:
+````
+[instagram]
+````
+
+## License
+
+This package is licensed under MIT license. See LICENSE for details.
